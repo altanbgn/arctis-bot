@@ -1,0 +1,2 @@
+# arctis-bot
+Discord bot
