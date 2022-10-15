@@ -1,0 +1,34 @@
+{
+  "name": "arctis-bot",
+  "version": "1.0.0",
+  "description": "Arctis discord bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arctis-team/arctis-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arctis-team/arctis-bot/issues"
+  },
+  "author": "Arctis Team",
+  "license": "GPL-3.0",
+  "homepage": "https://github.com/arctis-team/arctis-bot#readme",
+  "dependencies": {
+    "@discordjs/builders": "^1.3.0",
+    "@discordjs/opus": "^0.8.0",
+    "@discordjs/voice": "^0.13.0",
+    "@distube/soundcloud": "^1.2.2",
+    "@distube/spotify": "^1.4.2",
+    "@distube/yt-dlp": "^1.1.3",
+    "discord.js": "^14.6.0",
+    "distube": "^4.0.4",
+    "dotenv": "^16.0.3",
+    "libsodium-wrappers": "^0.7.10"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
