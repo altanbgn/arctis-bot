@@ -27,7 +27,6 @@ const play = new SlashCommandBuilder()
   )
 
 play.execute = (client, interaction) => {
-
   try {
     let subcommand = interaction.options.getSubcommand()
     
