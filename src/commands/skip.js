@@ -6,7 +6,7 @@ module.exports = {
     .setDescription("Skips ongoing music onto next one.")
     .addIntegerOption(option => 
       option
-        .setName("value")
+        .setName("number")
         .setDescription("Type how many songs you want to skip.")
         .setRequired(false)
         .setMinValue(0)

@@ -6,7 +6,7 @@ module.exports = {
     .setDescription("Play a track.")
     .addStringOption(option => 
       option
-        .setName("value")
+        .setName("input")
         .setDescription("URL | Keyword")
         .setRequired(true)
   ),
@@ -19,10 +19,10 @@ module.exports = {
         .catch(() => {});
     }
         
-    let value = await interaction.options.getString("value");
+    let input = await interaction.options.getString("input");
     
     // Stop command if no value is given!
-    if (!value)
+    if (!input)
       return await interaction
         .reply({ content: `❌ Write the name or URL of the track you want to play.` })
         .catch(() => {});
@@ -34,7 +34,7 @@ module.exports = {
         
       await client.distube.play(
         interaction.member.voice.channel,
-        value,
+        input,
         {
           member: interaction.member,
           textChannel: interaction.channel,
