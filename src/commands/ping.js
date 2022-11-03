@@ -1,12 +1,11 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('@discordjs/builders');
-const utils = require('../utils');
 
-const ping = new SlashCommandBuilder()
-  .setName('ping')
-  .setDescription('It helps you to get information about the speed of the bot.')
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName('ping')
+    .setDescription('It helps you to get information about the speed of the bot.'),
 
-ping.execute = (client, interaction) => {
-  try {
+  execute: async (client, interaction) => {
     const start = Date.now();
     interaction
       .reply("Pong!")
@@ -25,15 +24,5 @@ ping.execute = (client, interaction) => {
 
         return interaction.editReply({ embeds: [embed] }).catch(e => {});
       })
-  } catch (error) {
-    utils.log(error, 'error');
-    return interaction
-      .reply({
-        content: `Please try this command again later. Possible bug reported to bot developers.\n\`${error}\``,
-        ephemeral: true
-      })
-      .catch(error => { utils.log(error, 'error') });
   }
 }
-
-module.exports = ping.toJSON()

@@ -1,5 +1,5 @@
 const utils = require('../utils');
 
-module.exports = (client) => {
+module.exports = async (client) => {
   utils.log(`Logged in as ${client.user.tag}!`, "success");
 }

@@ -1,62 +1,50 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
 
-const play = new SlashCommandBuilder()
-  .setName("play")
-  .setDescription("Play a track.")
-  .addSubcommand(subcommand => 
-    subcommand
-      .setName("normal")
-      .setDescription("Open music from other platforms.")
-      .addStringOption(option => 
-        option
-          .setName('name')
-          .setDescription('Write your music name.')
-          .setRequired(true)
-      )
-  )
-  .addSubcommand(subcommand => 
-    subcommand
-      .setName("playlist")
-      .setDescription("Write your playlist name.")
-      .addStringOption(option => 
-        option
-          .setName('name')
-          .setDescription('Write your music name.')
-          .setRequired(true)
-      )
-  )
+module.exports = {
+  data: new SlashCommandBuilder()
+    .setName("play")
+    .setDescription("Play a track.")
+    .addStringOption(option => 
+      option
+        .setName("value")
+        .setDescription("URL | Keyword")
+        .setRequired(true)
+  ),
 
-play.execute = (client, interaction) => {
-  try {
-    let subcommand = interaction.options.getSubcommand()
-    
-    switch (subcommand) {
-      case 'normal': {
-        let name = interaction.options.getString('name')
-
-        if (!name)
-          return interaction.reply({ content: `Write the name of the track you want to search. ❌`, ephemeral: true }).catch(() => {});
-
-        try {
-          return client.distube.play(
-            interaction.member.voice.channel,
-            name,
-            {
-              member: interaction.member,
-              textChannel: interaction.channel,
-              interaction
-            }
-          )
-        } catch (error) {
-          return interaction.editReply({ content: `No results found! ❌`, ephemeral: true }).catch(() => {});
-        }
-      }
+  execute: async (client, interaction) => {
+    // Checks if user entered voice channel
+    if (!interaction.member.voice.channel) {
+      return await interaction
+        .reply({ content: `❌ Join a voice channel to use this command.` })
+        .catch(() => {});
     }
+        
+    let value = await interaction.options.getString("value");
+    
+    // Stop command if no value is given!
+    if (!value)
+      return await interaction
+        .reply({ content: `❌ Write the name or URL of the track you want to play.` })
+        .catch(() => {});
 
-    return interaction.reply("Play coming soon...").catch(() => {});
-  } catch (error) {
-    return interaction.reply({ content: `Please try this command again later. Possible bug reported to bot developers.\n\`${e}\``, ephemeral: true }).catch(() => {})
+    try {
+      await interaction
+        .reply({ content: `Processing...` })
+        .catch(() => {});
+        
+      await client.distube.play(
+        interaction.member.voice.channel,
+        value,
+        {
+          member: interaction.member,
+          textChannel: interaction.channel,
+          interaction
+        }
+      )
+    } catch (error) {
+      await interaction
+        .editReply({ content: `❌ No results found!` })
+        .catch(() => {});
+    }
   }
 }
-
-module.exports = play.toJSON()

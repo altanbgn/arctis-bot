@@ -50,7 +50,6 @@ client.distube.on('error', (channel, error) => {
   channel.send(`An error occured: ${error.slice(0, 1979)}`);
 })
 
-
 // Get files to a variable
 const eventFiles = fs.readdirSync('./src/events').filter(file => file.endsWith('.js')) || [];
 const playerEventFile = fs.readdirSync('./src/events/player').filter(file => file.endsWith('.js')) || [];
@@ -80,8 +79,8 @@ for (const file of playerEventFile) {
 for (const file of commandFiles) {
   const command = require(`./src/commands/${file}`);
 
-  client.commands.push(command);
-  utils.log(`Loaded command: ${command.name}`);
+  client.commands.push(command.data);
+  utils.log(`Loaded command: ${command.data.name}`);
 }
 
 rest.put(

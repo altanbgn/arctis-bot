@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-module.exports = (client, interaction) => {
+module.exports = async (client, interaction) => {
 	if (!interaction.isChatInputCommand()) return;
 
 	const commandFiles = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js')) || [];
@@ -9,7 +9,13 @@ module.exports = (client, interaction) => {
 		if (interaction.commandName === file.split(".")[0]) {
 			const command = require(`../commands/${file}`);
 
-			command.execute(client, interaction);
+			try {
+				await command.execute(client, interaction);
+			} catch (error) {
+				await interaction
+					.reply({ content: `Please try this command again later. Possible bug reported to bot developers.\n\`${error}\`` })
+					.catch(() => {})
+			}
 		}
 	}
 }
